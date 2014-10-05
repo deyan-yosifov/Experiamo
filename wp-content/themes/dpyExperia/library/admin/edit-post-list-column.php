@@ -33,8 +33,7 @@ class javo_manage_column
 			break;		
 		};
 	}
-	public function property_columns_initialize($columns)
-	{
+	public function property_columns_initialize($columns){
 		$columns = Array();
 		$columns['cb'] = "<input type='checkbox'>";
 		$columns['featured'] = __("Featured", "javo_fr");
