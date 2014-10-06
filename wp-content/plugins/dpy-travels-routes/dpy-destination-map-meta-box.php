@@ -89,7 +89,7 @@
 			var icon_img = document.getElementById("icon_img");
 			var icon_del = document.getElementById("dpy_icon_del");
 			var icon_add = document.getElementById("dpy_icon_add");
-			var icon_update_size= document.getElementById("dpy_update_icon_size")
+			var icon_update_size= document.getElementById("dpy_update_icon_size");
 			var icon_size_input = document.getElementsByName("icon_size")[0];
 
 			if(!icon_img.src){
