@@ -1,6 +1,5 @@
 <?php 
 	$custom_fields = get_post_custom();
-	//var_dump($custom_fields);
 ?>
 
 <table>

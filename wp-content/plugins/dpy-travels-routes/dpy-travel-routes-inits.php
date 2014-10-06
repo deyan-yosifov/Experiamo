@@ -192,10 +192,16 @@ class DPY_Travel_Routes_Plugin_Initializator {
 	 */
 	public  function dpy_post_meta_box_init(){
 		add_meta_box( "dpy_route_map", "Route on google maps", Array($this, "dpy_route_map_meta_box_include"), DPY::ROUTE_POST_NAME);
+		add_meta_box( "dpy_destination_map", "Destination on google maps", Array($this, "dpy_destination_map_meta_box_include"), DPY::DESTINATION_POST_NAME);
+		
 	}
 	
 	public function dpy_route_map_meta_box_include($post){
 		include_once 'dpy-route-map-meta-box.php';
+	}
+	
+	public function dpy_destination_map_meta_box_include($post){
+		include_once 'dpy-destination-map-meta-box.php';
 	}
 	
 	/**
@@ -209,6 +215,13 @@ class DPY_Travel_Routes_Plugin_Initializator {
 		switch( get_post_type($post_id) ){
 			case DPY::ROUTE_POST_NAME:
 				$this->dpy_update_post_meta($post_id, "test");
+				break;
+			case DPY::DESTINATION_POST_NAME:
+				$this->dpy_update_post_meta($post_id, "latitude", "42.673885293117664");
+				$this->dpy_update_post_meta($post_id, "longitude", "23.348543643951416");
+				$this->dpy_update_post_meta($post_id, "zoom", "16");
+				$this->dpy_update_post_meta($post_id, "icon_size", 15);
+				$this->dpy_update_post_meta($post_id, "icon", "");
 				break;
 		}
 	}
