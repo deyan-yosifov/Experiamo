@@ -214,7 +214,7 @@ class DPY_Travel_Routes_Plugin_Initializator {
 		
 		switch( get_post_type($post_id) ){
 			case DPY::ROUTE_POST_NAME:
-				$this->dpy_update_post_meta($post_id, "test");
+// 				$this->dpy_update_post_meta($post_id, "test");
 				break;
 			case DPY::DESTINATION_POST_NAME:
 				$this->dpy_update_post_meta($post_id, "latitude", "42.673885293117664");

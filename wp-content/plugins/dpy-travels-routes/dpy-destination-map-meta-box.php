@@ -37,7 +37,10 @@
 			</span>			
 			<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 		    <script>	
-		    var map, marker;	    
+		    var map, marker;	  
+		    var iconURL = "<?php echo $icon;?>";
+			var iconSize = parseInt("<?php echo $icon_size;?>");
+			  
 			function initializeMap() {	
 				//var map;	
 				var mapOptions = {
@@ -51,11 +54,8 @@
 				    position: map.getCenter(),
 				    map: map,
 				  });
-
-
-				var iconURL = "<?php echo $icon;?>";
-				var iconSize = parseInt("<?php echo $icon_size;?>");
-				if(iconURL){					
+				
+				if(iconURL && iconURL != ""){					
 					marker.setIcon({
 					     url: iconURL, // url
 					     size: new google.maps.Size(iconSize, iconSize), // size
@@ -82,8 +82,7 @@
 			};
 		
 			google.maps.event.addDomListener(window, 'load', initializeMap);
-		    </script>
-			<script type="text/javascript">			
+					
 			var icon_wrapper = document.getElementById("dpy_icon_wrapper");
 			var icon_input = document.getElementsByName("icon")[0];
 			var icon_img = document.getElementById("icon_img");
@@ -92,11 +91,10 @@
 			var icon_update_size= document.getElementById("dpy_update_icon_size");
 			var icon_size_input = document.getElementsByName("icon_size")[0];
 
-			if(!icon_img.src){
+			if(!iconURL || iconURL==""){
 				icon_wrapper.style.display="none";
 			}
-			else
-			{
+			else {
 				icon_wrapper.style.display="inline";
 			}
 
@@ -159,7 +157,7 @@
 	<tr>
 		<th><?php _e('Select position on google maps:', 'dpyTravelRoutes');?></th>
 		<td>			 		    
-		    <div id="map-canvas" style="width:500px; height:500px; margin:10px auto;"></div>
+		    <div id="map-canvas" style="width:800px; height:500px; margin:10px auto;"></div>
 		</td>
 	</tr>
 </table>
