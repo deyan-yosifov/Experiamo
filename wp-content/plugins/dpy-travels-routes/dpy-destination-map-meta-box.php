@@ -23,7 +23,7 @@
 	<tr>
 		<th><?php _e('Icon size', 'dpyTravelRoutes');?></th>
 		<td>
-			<input type="number" name="icon_size" value="<?php echo $icon_size;?>" min="5" max="50"/>
+			<input type="number" name="icon_size" value="<?php echo $icon_size;?>" />
 			<a href="javascript:" id="dpy_update_icon_size">Update</a>
 		</td>
 	</tr>
@@ -101,7 +101,7 @@
 			icon_update_size.addEventListener("click", function(){
 				var iconURL = icon_img.src;
 				var iconSize = parseInt(icon_size_input.value);
-				if(iconURL != ""){					
+				if(iconURL != "" && icon_wrapper.style.display != "none"){					
 					marker.setIcon({
 					     url: iconURL, // url
 					     size: new google.maps.Size(iconSize, iconSize), // size

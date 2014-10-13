@@ -1,27 +1,92 @@
 <?php 
 	$custom_fields = get_post_custom();
+	$mapjson = $custom_fields['mapjson'][0];
+	
 ?>
 
 <table>
+	<tr>
+		<th><?php _e('MapJSON', 'dpyTravelRoutes');?></th>
+		<td><textarea name="mapjson" readonly="readonly"><?php echo $mapjson;?></textarea></td>
+	</tr>
 	<tr>
 		<th><?php _e('Draw route on google maps:', 'dpyTravelRoutes');?></th>
 		<td> 
 		    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 		    <script>
+			var routeInfo = <?php echo $mapjson;?>;
+			var mapInfoUI = document.getElementsByName("mapjson")[0];
+			
+			function updateMapInfoUI(){
+				mapInfoUI.value = JSON.stringify(routeInfo);
+			};
+		    
 			function initializeMap() {	
 				var map;	
-				var defaultZoom = 16;
-				var mapCenterCoordinates = new google.maps.LatLng(42.673885293117664, 23.348543643951416);
+				var defaultZoom = routeInfo["zoom"];
+				var mapCenterCoordinates = new google.maps.LatLng(routeInfo["latitude"], routeInfo["longitude"]);
 				var mapOptions = {
 					zoom: defaultZoom,
 					center: mapCenterCoordinates,
 					mapTypeId: google.maps.MapTypeId.HYBRID
 				};
 				map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);	
-					
-// 					google.maps.event.addListener(marker, 'click', function() {
-// 						showInfo(marker.getPosition(), marker.getTitle());
-// 					});
+
+				google.maps.event.addListener(map, 'zoom_changed', function(event) {
+					routeInfo["zoom"] = map.getZoom();
+					updateMapInfoUI();
+				});
+
+				google.maps.event.addListener(map, 'center_changed', function(event) {
+					var center = map.getCenter();
+					routeInfo["latitude"] = center.lat();
+					routeInfo["longitude"] = center.lng();
+					updateMapInfoUI();
+				});
+
+				var infoWindow = new google.maps.InfoWindow({maxWidth: 200});
+				var showInfo = function(position, content) {
+					map.panTo(position);
+					infoWindow.setContent(content);
+					infoWindow.setPosition(position);
+					infoWindow.open(map)
+				};	
+
+				// DEFINE DESTINATION MARKERS HERE!
+				(function(){					
+					<?php 							
+							$destinationPosts = new WP_Query('post_type='.DPY::DESTINATION_POST_NAME);
+							if($destinationPosts->have_posts()){
+								while ($destinationPosts->have_posts()) : $destinationPosts->the_post();
+								$destinationPostID = get_the_ID();
+								$post_custom_fields = get_post_custom($destinationPostID);
+								$latitude = $post_custom_fields['latitude'][0];
+								$longitude = $post_custom_fields['longitude'][0];
+								$zoom = $post_custom_fields['zoom'][0];
+								$icon_size = $post_custom_fields['icon_size'][0];
+								$icon = $post_custom_fields['icon'][0];
+						?>
+						(function(){
+							var marker = new google.maps.Marker({
+								dpy: {
+									title:"<?php the_title()?>",
+									isIncluded: routeInfo["destinationIDs"][<?php echo $destinationPostID?>] != null,
+								},
+							    position: new google.maps.LatLng(<?php echo $latitude;?>, <?php echo $longitude;?>),
+							    map: map,
+							  });
+	
+							google.maps.event.addListener(marker, 'click', function() {
+								showInfo(marker.getPosition(), marker.dpy.title);
+								// TODO: Include and exclude markers from route!
+							});
+						})();
+						
+						<?php 
+								endwhile;
+							}
+						?>
+				})();		
 					
 			};
 		
