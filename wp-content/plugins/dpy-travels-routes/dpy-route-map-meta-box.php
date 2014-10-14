@@ -52,6 +52,8 @@
 					infoWindow.open(map)
 				};	
 
+				var markers = [];
+				
 				// DEFINE DESTINATION MARKERS HERE!
 				(function(){					
 					<?php 							
@@ -75,7 +77,9 @@
 							    position: new google.maps.LatLng(<?php echo $latitude;?>, <?php echo $longitude;?>),
 							    map: map,
 							  });
-	
+
+							markers.push(marker);
+							
 							google.maps.event.addListener(marker, 'click', function() {
 								showInfo(marker.getPosition(), marker.dpy.title);
 								// TODO: Include and exclude markers from route!
