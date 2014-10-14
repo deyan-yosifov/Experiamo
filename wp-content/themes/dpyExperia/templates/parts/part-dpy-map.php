@@ -9,34 +9,23 @@ $dpy_map_height_gmap = sprintf('position:relative; height:%spx;', $dpy_map_heigh
 
 		<form onsubmit="return false">
 
-
 			<div class="newrow">
 
-				<h4 class="title">Theme taxonomy</h4>					
+				<h4 class="title"><?php _e('Theme', 'dpyTravelRoutes');?></h4>					
 
 			</div>
 
+			<div class="newrow">
 
+				<h4 class="title"><?php _e('Type', 'dpyTravelRoutes');?></h4>				
+
+			</div>			
 
 			<div class="newrow">
 
-				<h4 class="title">Second taxonomy</h4>
-		
-			</div>
+				<h4 class="title"><?php _e('Keyword', 'dpyTravelRoutes');?></h4>
 
-
-			<div class="newrow">
-
-				<h4 class="title">Interest taxonomy</h4>				
-
-			</div>
-			
-
-			<div class="newrow">
-
-				<h4 class="title"><?php _e('Keyword', 'javo_fr');?></h4>
-
-				<input id="javo_keyword" type="text" class="fullcolumn">
+				<input id="dpy_keyword" type="text" class="fullcolumn">
 
 			</div>
 
@@ -44,7 +33,7 @@ $dpy_map_height_gmap = sprintf('position:relative; height:%spx;', $dpy_map_heigh
 
 		<section class="newrow">
 
-			<h4 class="javo_somw_list_title"><?php _e('List', 'javo_fr');?></h4>
+			<h4 class="javo_somw_list_title"><?php _e('List', 'dpyTravelRoutes');?></h4>
 
 			<article class="output"></article>
 
@@ -52,7 +41,7 @@ $dpy_map_height_gmap = sprintf('position:relative; height:%spx;', $dpy_map_heigh
 
 	</div> <!-- javo_somw_panel -->
 
-	<span class="javo_somw_opener_type1 active"><?php _e('Hide', 'javo_fr');?></span>
+	<span class="javo_somw_opener_type1 active"><?php _e('Hide', 'dpyTravelRoutes');?></span>
 
 	<div class="map_area"></div> <!-- map_area : it shows map part -->
 
@@ -68,8 +57,6 @@ $dpy_map_height_gmap = sprintf('position:relative; height:%spx;', $dpy_map_heigh
 
 		if( $(this).hasClass("active") ){
 
-
-
 			$(this).animate({marginLeft:-(parseInt(_panel.outerWidth())) + "px" }, 500);
 
 			_panel.animate({marginLeft:-(parseInt(_panel.outerWidth())) + "px"}, 500);
@@ -82,11 +69,7 @@ $dpy_map_height_gmap = sprintf('position:relative; height:%spx;', $dpy_map_heigh
 
 			$(this).text("Show").removeClass('active');
 
-
-
 		}else{
-
-
 
 			$(this).animate({marginLeft:0}, 500);
 
@@ -101,8 +84,6 @@ $dpy_map_height_gmap = sprintf('position:relative; height:%spx;', $dpy_map_heigh
 			$(this).text("Hide").addClass('active');
 
 		};
-
-
 
 	});
 

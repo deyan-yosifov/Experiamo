@@ -51,10 +51,13 @@ class DPY_Travel_Routes_Plugin_Initializator {
 		// create custom posts
 		add_action( 'init', array( $this, 'register_dpy_routes_post' ) );	
 		add_action( 'init', array( $this, 'register_dpy_destination_post' ) );			
+		add_action( 'init', array($this, 'register_dpy_taxonomies'));
 		
 		// manage custom posts columns
+		add_filter( 'manage_taxonomies_for_'.DPY::ROUTE_POST_NAME.'_columns', Array($this, "route_taxonomy_columns_initialize"));
 		add_filter('manage_edit-'.DPY::ROUTE_POST_NAME.'_columns', Array($this, "route_columns_initialize"));
 		add_action('manage_'.DPY::ROUTE_POST_NAME.'_posts_custom_column', Array($this, "route_columns_content"), 10, 2);
+		add_filter( 'manage_taxonomies_for_'.DPY::DESTINATION_POST_NAME.'_columns', Array($this, "destination_taxonomy_columns_initialize"));
 		add_filter('manage_edit-'.DPY::DESTINATION_POST_NAME.'_columns', Array($this, "destination_columns_initialize"));
 		add_action('manage_'.DPY::DESTINATION_POST_NAME.'_posts_custom_column', Array($this, "destination_columns_content"), 10, 2);
 		
@@ -62,6 +65,23 @@ class DPY_Travel_Routes_Plugin_Initializator {
 		add_action('admin_enqueue_scripts', Array($this, 'dpy_admin_post_meta_enqueue'));
 		add_action('add_meta_boxes', Array($this, 'dpy_post_meta_box_init'));
 		add_action('save_post', Array($this, 'dpy_post_meta_box_save'));
+	}
+	
+	/**
+	 * Adds taxonomies columns in routes listing.
+	 */
+	public function route_taxonomy_columns_initialize( $taxonomies ) {
+		$taxonomies[] = 'route_theme';
+		$taxonomies[] = 'route_type';
+		return $taxonomies;
+	}
+	
+	/**
+	 * Adds taxonomies columns in destinations listing.
+	 */
+	public function destination_taxonomy_columns_initialize( $taxonomies ) {
+		$taxonomies[] = 'route_theme';
+		return $taxonomies;
 	}
 	
 	/**
@@ -140,34 +160,9 @@ class DPY_Travel_Routes_Plugin_Initializator {
 				'page-attributes',
 				//'custom-fields',
 				),
-		));
-		
-		$this->register_dpy_routes_taxonomies();
+		));		
 	}
-	
-	public function register_dpy_routes_taxonomies(){
-		// Route > Theme
-		register_taxonomy('route_theme', DPY::ROUTE_POST_NAME, Array(
-		'label' => __( 'Theme', "dpyTravelRoutes" ),
-		'rewrite' => array( 'slug' => 'route_theme' ),
-		'hierarchical' => true,
-		));
 		
-		// Route > Location
-		register_taxonomy('route_location', DPY::ROUTE_POST_NAME, Array(
-		'label' => __( 'Location', "dpyTravelRoutes" ),
-		'rewrite' => array( 'slug' => 'route_location' ),
-		'hierarchical' => true,
-		));
-		
-		// Route > Interest
-		register_taxonomy('route_interest', DPY::ROUTE_POST_NAME, Array(
-		'label' => __( 'Interest', "dpyTravelRoutes" ),
-		'rewrite' => array( 'slug' => 'route_interest' ),
-		'hierarchical' => true,
-		));
-	}
-	
 	/**
 	 * Setup the DPY destination post type.
 	 */
@@ -202,6 +197,25 @@ class DPY_Travel_Routes_Plugin_Initializator {
 				'page-attributes',
 				//'custom-fields',
 				),
+		));
+	}
+
+	/**
+	 * Registers routes and destinations taxonomies.
+	 */
+	public function register_dpy_taxonomies(){
+		// Route > Theme
+		register_taxonomy('route_theme', Array(DPY::ROUTE_POST_NAME, DPY::DESTINATION_POST_NAME), Array(
+		'label' => __( 'Theme', "dpyTravelRoutes" ),
+		'rewrite' => array( 'slug' => 'route_theme' ),
+		'hierarchical' => true,
+		));
+	
+		// Route > Type
+		register_taxonomy('route_type', DPY::ROUTE_POST_NAME, Array(
+		'label' => __( 'Type', "dpyTravelRoutes" ),
+		'rewrite' => array( 'slug' => 'route_type' ),
+		'hierarchical' => true,
 		));
 	}
 
