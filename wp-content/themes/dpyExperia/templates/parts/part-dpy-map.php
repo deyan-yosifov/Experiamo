@@ -11,13 +11,18 @@ $dpy_map_height_gmap = sprintf('position:relative; height:%spx;', $dpy_map_heigh
 
 			<div class="newrow">
 
-				<h4 class="title"><?php _e('Theme', 'dpyTravelRoutes');?></h4>					
+				<h4 class="title"><?php _e('Theme', 'dpyTravelRoutes');?></h4>		
+				
+				<button value="All" class="dpy_theme_btn active"><?php _e('All', 'dpyTravelRoutes');?></button>	
+				<button value="dummyId" class="dpy_theme_btn"><?php _e('Dummy theme', 'dpyTravelRoutes');?></button>		
 
 			</div>
 
 			<div class="newrow">
 
 				<h4 class="title"><?php _e('Type', 'dpyTravelRoutes');?></h4>				
+				<button value="All" class="dpy_type_btn active"><?php _e('All', 'dpyTravelRoutes');?></button>	
+				<button value="POIs" class="dpy_type_btn"><?php _e('POIs', 'dpyTravelRoutes');?></button>	
 
 			</div>			
 
@@ -43,12 +48,12 @@ $dpy_map_height_gmap = sprintf('position:relative; height:%spx;', $dpy_map_heigh
 
 	<span class="javo_somw_opener_type1 active"><?php _e('Hide', 'dpyTravelRoutes');?></span>
 
-	<div class="map_area"></div> <!-- map_area : it shows map part -->
+	<div class="map_area" id="dpy-map-canvas" style="height:100%; width:100%"></div> <!-- map_area : it shows map part -->
 
 </div><!-- Gmap -->
 
 <script type="text/javascript">
-
+// Show/Hide side panel
 (function($){
 
 	var _panel = $(".javo_somw_panel");
