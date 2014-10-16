@@ -209,7 +209,8 @@
 	}
 
 	// after redirect on user login
-	add_filter('login_redirect', 'javo_login_redirect_callback', 10, 3);
+	// dpy bug fix!!!
+	//add_filter('login_redirect', 'javo_login_redirect_callback', 10, 3);
 	function javo_login_redirect_callback($orgin, $req, $user){
 		global $javo_tso;
 		if( in_array( 'administrator', wp_get_current_user()->roles )){ 
