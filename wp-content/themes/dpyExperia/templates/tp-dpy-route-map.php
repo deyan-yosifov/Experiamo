@@ -25,32 +25,60 @@ jQuery(document).ready(function($){
 			.animate({ scrollTop: $('.javo_somw_panel').position().top - ($('#stick-nav').offset().top + $('#stick-nav').height()) }, 500);
 	
 	}).on("click change", ".dpy_theme_btn", function(){
-			$(".dpy_theme_btn")
-			//.attr("disabled", true)
-			.removeClass('active');
+		$(".dpy_theme_btn")
+		.removeClass('active');
 		$(this).addClass('active');
 		var buttonValue = $(this).val();
 		console.log("button: "+buttonValue);
+		updateQuery();
 		
 	}).on("click change", ".dpy_type_btn", function(){
-			$(".dpy_type_btn")
-			//.attr("disabled", true)
-			.removeClass('active');
+		$(".dpy_type_btn")
+		.removeClass('active');
 		$(this).addClass('active');
 		var buttonValue = $(this).val();
 		console.log("button: "+buttonValue);
+		updateQuery();
 		
 	}).on("keypress", "#dpy_keyword", function(e){
 		if(e.keyCode == 13){
 			var keyword = $(this).val();
 			console.log("keyword: "+keyword);
+			updateQuery();
 			return false;
 		}
 	}).on("change", "#dpy_keyword", function(){		
-			var keyword = $(this).val();
-			console.log("keyword: "+keyword);
+		var keyword = $(this).val();
+		console.log("keyword: "+keyword);
+		updateQuery();
+		
+	}).on("click", ".dpy_list_item", function(e){
+		console.log("change selected item");
 	});
-	
+
+	function updateQuery(){
+		var queryContent = $("article.output");
+		var selectedTheme = $(".dpy_theme_btn.active").first().val();
+		var selectedType = $(".dpy_type_btn.active").first().val();
+		var selectedKeyword = $("#dpy_keyword").val();
+		$.ajax({
+	            type       : "GET",
+	            data       : {theme : selectedTheme, type: selectedType, keyword: selectedKeyword},
+	            dataType   : "html",
+	            url        : "<?php echo get_template_directory_uri()?>"+"/templates/parts/part-dpy-map-query-items.php",
+	            beforeSend : function(){	                
+               		// TODO: show some loading gif.
+	            },
+	            success    : function(data){                
+	            	queryContent.html(data);
+	            },
+	            error     : function(jqXHR, textStatus, errorThrown) {
+	                alert(jqXHR + " :: " + textStatus + " :: " + errorThrown);
+	            }
+	    });
+	};
+
+	updateQuery();	
 });
 
 function initializeMap() {	
@@ -66,5 +94,5 @@ function initializeMap() {
 					
 };
 
-//google.maps.event.addDomListener(window, 'load', initializeMap);
+google.maps.event.addDomListener(window, 'load', initializeMap);
 </script>

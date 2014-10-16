@@ -14,7 +14,13 @@ $dpy_map_height_gmap = sprintf('position:relative; height:%spx;', $dpy_map_heigh
 				<h4 class="title"><?php _e('Theme', 'dpyTravelRoutes');?></h4>		
 				
 				<button value="All" class="dpy_theme_btn active"><?php _e('All', 'dpyTravelRoutes');?></button>	
-				<button value="dummyId" class="dpy_theme_btn"><?php _e('Dummy theme', 'dpyTravelRoutes');?></button>		
+				<?php 
+					$themes = get_terms(array('route_theme'));					
+					wp_reset_query();					
+					foreach($themes as $item){					
+						printf('<button value="%s" class="%s">%s</button>', $item->term_id, "dpy_theme_btn", $item->name);					
+					};
+				?>	
 
 			</div>
 
@@ -23,7 +29,13 @@ $dpy_map_height_gmap = sprintf('position:relative; height:%spx;', $dpy_map_heigh
 				<h4 class="title"><?php _e('Type', 'dpyTravelRoutes');?></h4>				
 				<button value="All" class="dpy_type_btn active"><?php _e('All', 'dpyTravelRoutes');?></button>	
 				<button value="POIs" class="dpy_type_btn"><?php _e('POIs', 'dpyTravelRoutes');?></button>	
-
+				<?php 
+					$types = get_terms(array('route_type'));					
+					wp_reset_query();					
+					foreach($types as $item){					
+						printf('<button value="%s" class="%s">%s</button>', $item->term_id, "dpy_type_btn", $item->name);					
+					};
+				?>
 			</div>			
 
 			<div class="newrow">
