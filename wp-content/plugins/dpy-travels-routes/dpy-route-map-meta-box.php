@@ -38,11 +38,7 @@
 					currentMarker.setIcon(unselectedMarkerIcon);
 				}else {
 					routeInfo["destinationIDs"].push(currentMarker.dpy.destinationId);
-					if(currentMarker.dpy.icon.url && currentMarker.dpy.icon.url != ""){
-						currentMarker.setIcon(currentMarker.dpy.icon);
-					} else {
-						currentMarker.setIcon(null);
-					}					
+					currentMarker.setIcon(currentMarker.dpy.icon);					
 				}
 
 				updateMapInfoUI();
@@ -104,22 +100,27 @@
 						(function(){
 							var iconURL = "<?php echo $icon ?>";
 							var iconSize = parseInt("<?php echo $icon_size ?>");
+							var destination = <?php echo $destinationPostID?>;
+							var index = routeInfo["destinationIDs"].indexOf(destination);
+							var included = index > -1;
+
+							var destinationIcon = ((iconURL && iconURL != "") ? {
+							     url: iconURL, // url
+							     size: new google.maps.Size(iconSize, iconSize), // size
+							     origin: new google.maps.Point(0,0), // origin
+							     anchor: new google.maps.Point(iconSize/2.0,iconSize/2.0) // anchor 
+							 } : null);
 							
 							var marker = new google.maps.Marker({
 								dpy: {
 									title:"<?php the_title()?>",
-									destinationId: <?php echo $destinationPostID?>,
-									isIncluded: routeInfo["destinationIDs"][<?php echo $destinationPostID?>] != null,
-									icon : {
-									     url: iconURL, // url
-									     size: new google.maps.Size(iconSize, iconSize), // size
-									     origin: new google.maps.Point(0,0), // origin
-									     anchor: new google.maps.Point(iconSize/2.0,iconSize/2.0) // anchor 
-									 }
+									destinationId: destination,
+									isIncluded: included,
+									icon : destinationIcon
 								},
 							    position: new google.maps.LatLng(<?php echo $latitude;?>, <?php echo $longitude;?>),
 							    map: map,
-							    icon: unselectedMarkerIcon,
+							    icon: (included ? destinationIcon : unselectedMarkerIcon),
 							  });
 
 							markers.push(marker);
