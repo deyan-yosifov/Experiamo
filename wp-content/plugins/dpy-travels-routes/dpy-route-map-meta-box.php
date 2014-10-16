@@ -128,7 +128,7 @@
 								currentMarker = marker;
 								var content = '<div style="width: 200px; height: auto; word-wrap:break-word; overflow:auto;">';
 								content += '<div>';
-								content += marker.dpy.title + "dsdadad asd asd asd sad asd sad sad sad sa das da dsad sad asd a dadsa dasd sad asd asdsada d sda ds adsa da d sd asd sa ";
+								content += marker.dpy.title;
 								content += '</div><div>';
 								content += '<input type="button" value="'+getAddRemoveButtonText()+'" onclick="addRemoveMarkerToRoute();"/>';
 								content += '</div></div>';
