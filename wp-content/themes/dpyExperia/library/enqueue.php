@@ -23,8 +23,8 @@ function javo_load_scripts(){
 
 
 	// Required Header load files.
-	wp_enqueue_script('jquery');
-	wp_enqueue_script("google_map_API", "http://maps.google.com/maps/api/js?sensor=false&amp;language=en", null, "0.0.1", false);
+	wp_enqueue_script('jquery');	
+// 	wp_enqueue_script("google_map_API", "http://maps.google.com/maps/api/js?sensor=false&amp;language=en", null, "0.0.1", false);	wp_enqueue_script("google_map_API", "https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=drawing", null, "0.0.1", false);
 	javo_get_script("gmap3.js", "jQuery-gmap3", "5.1.1", false);
 	javo_get_script("common.js", "real-estate-common", "1.1.1", false);
 	wp_enqueue_script("javo_search", JAVO_THEME_DIR."/js/jquery_javo_search.js", Array("jquery"), "0.0.1");
