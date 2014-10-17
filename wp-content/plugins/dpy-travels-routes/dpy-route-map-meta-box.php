@@ -405,9 +405,76 @@
               return result;
           };
 
+	          function jsonReadPolygon(polygon){
+	        	  var buf = {};
+	        	  copyProperties(polygon, buf, ["type", "strokeWeight", "fillOpacity", "fillColor", "strokeColor"]);
+	        	  buf.paths = [];
+	        	  for(var i = 0; i < polygon.paths.length; i+=1){
+					var path = polygon.paths[i];
+					buf.paths[i] = jsonReadPath(path);
+	        	  }
+	              buf.map = map;
+	              
+	              var newShape = new google.maps.Polygon(buf);
+			        google.maps.event.addListener(newShape, 'click', function() {
+			              setSelection(newShape);
+			              console.log("new shape click!");
+			        });
+
+	              return newShape;
+	          };
+          
+          	function jsonMakePolygon(polygon){
+          		var buf = {};
+                copyProperties(polygon, buf, ["type", "strokeWeight", "fillOpacity", "fillColor", "strokeColor"]);
+                var paths = polygon.getPaths()['j'];
+                buf.paths = [];
+                for(var i = 0; i < paths.length; i++){
+					var path = paths[i]['j'];
+					buf.paths[i] = path;
+                }
+                buf.editable = false;
+
+                return buf;      		
+  			};
+
+          function jsonReadPolyline(polyline){
+        	  var buf = {};
+        	  copyProperties(polyline, buf, ["type", "strokeWeight", "strokeColor"]);
+        	  buf.path = jsonReadPath(polyline.pathArray);  
+              buf.map = map;
+              
+              var newShape = new google.maps.Polyline(buf);
+		        google.maps.event.addListener(newShape, 'click', function() {
+		              setSelection(newShape);
+		              console.log("new shape click!");
+		        });
+
+              return newShape;
+          };
+
+          function jsonReadPath(pathArray){
+	        	var path = [];
+	  			for(var i = 0; i < pathArray.length; i+=1){
+	  				path.push(jsonReadPoint(pathArray[i]));
+	  			}
+
+	  			return path;
+          };
+
+          function jsonMakePolyline(polyline){
+        	  var buf = {};
+              copyProperties(polyline, buf, ["type", "strokeWeight", "strokeColor"]);
+              var pathShit = polyline.getPath();
+              buf.pathArray = pathShit['j'];              
+              buf.editable = false;
+
+              return buf;
+          };
+          
           function jsonReadCircle(circle){
               var buf = jsonMakeCircle(circle);
-              buf.center = new google.maps.LatLng(circle.center.k, circle.center.B);              
+              buf.center = jsonReadPoint(circle.center);              
               buf.map = map;
               
               var newShape = new google.maps.Circle(buf);
@@ -418,7 +485,10 @@
 
               return newShape;
           };
-              
+
+          function jsonReadPoint(point){
+        	  return new google.maps.LatLng(point.k, point.B);
+          };  
           
           function jsonMakeCircle(circle){
               var buf = {};
