@@ -257,7 +257,8 @@ class DPY_Travel_Routes_Plugin_Initializator {
 						. "'latitude':42.673885293117664,"
 						. "'longitude':23.348543643951416,"
 						. "'zoom':16,"
-						. "'destinationIDs':[]"
+						. "'destinationIDs':[],"
+						. "'shapes':[],"
 						. "}";
 				$this->dpy_update_post_meta($post_id, "mapjson", $defaultJson);
 				break;
