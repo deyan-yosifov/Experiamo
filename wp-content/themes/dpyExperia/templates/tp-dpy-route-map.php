@@ -17,6 +17,8 @@
 
 <script type="text/javascript">
 var map;
+var markers=[];
+var shapes=[];
 
 jQuery(document).ready(function($){
 
@@ -52,9 +54,34 @@ jQuery(document).ready(function($){
 		console.log("keyword: "+keyword);
 		updateQuery();
 		
-	}).on("click", ".dpy_list_item", function(e){
+	}).on("click", ".dpy_list_item > a", function(e){
 		console.log("change selected item");
+		var postId = $(this).data('postid');
+		var postType = $(this).data('posttype');
+		changeMapGraphics(postId, postType);
 	});
+
+	function changeMapGraphics(postId, postType){
+		console.log(postId + " - " + postType);
+		$.ajax({
+            type       : "GET",
+            data       : {
+			                postid : postId,
+			                posttype : postType
+			                },
+            dataType   : "json",
+            url        : "<?php echo get_template_directory_uri()?>"+"/templates/parts/part-dpy-map-geometries.php",
+            beforeSend : function(){	                
+           		// TODO: show some loading gif.
+            },
+            success    : function(data){                
+            	alert("success data: "+JSON.stringify(data));
+            },
+            error     : function(jqXHR, textStatus, errorThrown) {
+                alert(jqXHR + " :: " + textStatus + " :: " + errorThrown);
+            }
+	    });
+	};
 
 	function updateQuery(){
 		var queryContent = $("article.output");

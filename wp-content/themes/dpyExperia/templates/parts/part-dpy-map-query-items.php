@@ -21,10 +21,10 @@ class ItemGenerator{
 	</div><!-- col-md-3 thumb-wrap -->
 
 	<div class="cols-md-9 meta-wrap">
-		<div class="javo_somw_list">
-			<a href="#"><?php the_title();?></a>
+		<div class="javo_somw_list dpy_list_item">
+			<a href="#" data-postid="<?php echo get_the_ID();?>" data-posttype="<?php echo get_post_type()?>"><?php the_title();?></a>
 		</div>
-		<div class="javo_somw_list"><?php the_content("[more...], true")?></div>
+		<div class="javo_somw_list">by <?php the_author_meta('first_name');?> <?php the_author_meta('last_name');?></div>
 	</div><!-- col-md-9 meta-wrap -->
 </div>
 
