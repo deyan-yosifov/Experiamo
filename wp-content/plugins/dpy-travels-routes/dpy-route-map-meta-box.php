@@ -62,7 +62,7 @@
 
             var index = _shapes.indexOf(selectedShape);
             if(index > -1){
-            	routeInfo["shapes"].splice(index, 1);
+            	_shapes.splice(index, 1);
             	updateMapInfoUI();
             }            
           }
@@ -427,6 +427,31 @@
 
               return buf;
           };
+
+          function jsonReadRectangle(rectangle){
+        	  var buf = jsonMakeRectangle(rectangle);
+              buf.bounds = new google.maps.LatLngBounds(
+                      new google.maps.LatLng(rectangle.bounds.Ea.j, rectangle.bounds.va.j),
+                      new google.maps.LatLng(rectangle.bounds.Ea.k, rectangle.bounds.va.k)
+                       );              
+              buf.map = map;
+              
+              var newShape = new google.maps.Rectangle(buf);
+		        google.maps.event.addListener(newShape, 'click', function() {
+		              setSelection(newShape);
+		              console.log("new shape click!");
+		        });
+
+              return newShape;
+          }
+
+          function jsonMakeRectangle(rectangle){
+        	  var buf = {};
+              copyProperties(rectangle, buf, ["type", "strokeWeight", "fillOpacity", "fillColor", "strokeColor", "bounds"]);
+              buf.editable = false;
+
+              return buf;
+          }
               
           
           function copyProperties(from, to, props){
