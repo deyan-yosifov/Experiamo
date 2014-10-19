@@ -40,7 +40,7 @@ if($javo_tso->get('custom_css', '') != ''){
 };?>
 
 <?php wp_head(); ?>
-
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=drawing"></script>
 </head>
 <body <?php body_class();?>>
 <?php require_once !empty($javo_theme_option['header_file'])? $javo_theme_option['header_file'] : "library/header/head-line.php"; ?>
